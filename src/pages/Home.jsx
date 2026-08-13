@@ -12,7 +12,7 @@ const Home = () => {
 
   const [editTodo, setEditTodo] = useState(null);
 
-  const { user } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const { todos, isLoading, isError, message } = useSelector(
     (state) => state.todo,
   );
@@ -26,7 +26,8 @@ const Home = () => {
 
   // FIX 2: Data fetch aur Auth check ke liye alag useEffect lagayein
   useEffect(() => {
-    if (!user) {
+    // 👇 CHANGE YAHAN HAI: 'user' ki jagah 'token' check karein
+    if (!token) {
       navigate("/login");
       return;
     }
@@ -36,7 +37,7 @@ const Home = () => {
     return () => {
       dispatch(reset());
     };
-  }, [user, navigate, dispatch]);
+  }, [token, navigate, dispatch]); // 👈 Dependencies mein bhi token
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this Todo?")) {
@@ -52,11 +53,11 @@ const Home = () => {
       }),
     );
   };
-  
+
   // BONUS: Edit button par click karne par smoothly top par scroll hone ka function
   const handleEditClick = (todo) => {
     setEditTodo(todo);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -160,8 +161,18 @@ const Home = () => {
                   <div className="flex items-center h-7">
                     {todo.isCompleted ? (
                       <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-md">
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                        <svg
+                          className="w-3.5 h-3.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2.5"
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                         Completed
                       </span>
@@ -193,10 +204,13 @@ const Home = () => {
           </div>
         ) : (
           <div className="text-center bg-white rounded-3xl p-12 shadow-sm border border-gray-100 mt-6 max-w-2xl mx-auto">
-             <h3 className="text-xl font-bold text-gray-900 mb-2">No tasks yet</h3>
-             <p className="text-gray-500 max-w-sm mx-auto">
-               You're all caught up! Use the form above to create your first task and stay organized.
-             </p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              No tasks yet
+            </h3>
+            <p className="text-gray-500 max-w-sm mx-auto">
+              You're all caught up! Use the form above to create your first task
+              and stay organized.
+            </p>
           </div>
         )}
       </div>
