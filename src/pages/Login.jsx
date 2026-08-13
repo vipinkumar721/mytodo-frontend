@@ -36,11 +36,20 @@ const Login = () => {
     }));
   };
 
-  const onSubmit = (e) => {
+const onSubmit = (e) => {
     e.preventDefault();
+    
+    // 1. Check karein ki koi field khali toh nahi
     if (!email || !password) {
       return toast.warning('Please fill all fields');
     }
+
+    // 2. Password Length Validation
+    if (password.length < 6) {
+      return toast.error('Password must be at least 6 characters');
+    }
+
+    // Agar sab sahi hai, tabhi backend ko login request bhejein
     const userData = { email, password };
     dispatch(login(userData));
   };

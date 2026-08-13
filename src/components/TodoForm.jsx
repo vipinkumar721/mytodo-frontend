@@ -21,15 +21,22 @@ const TodoForm = ({ editTodo, setEditTodo }) => {
     }
   }, [editTodo]);
 
-  const onSubmit = (e) => {
+const onSubmit = (e) => {
     e.preventDefault();
 
-    if (!title) {
-      return toast.error("Title is required!");
+    // 1. Check karein ki title khali toh nahi (trim() spaces hata deta hai)
+    if (!title.trim()) {
+      return toast.warning("Title cannot be empty!");
+    }
+
+    // 2. Check karein ki title kam se kam 3 characters ka ho
+    if (title.trim().length < 3) {
+      return toast.error("Title must be at least 3 characters long");
     }
 
     const formData = new FormData();
-    formData.append('title', title);
+    // title.trim() bhejna better hai taaki database mein faltu spaces save na hon
+    formData.append('title', title.trim()); 
     formData.append('description', description);
     
     if (image) {
@@ -41,14 +48,13 @@ const TodoForm = ({ editTodo, setEditTodo }) => {
       // Edit Mode
       dispatch(updateTodo({ id: editTodo._id, todoData: formData }));
       setEditTodo(null); // Form wapas normal mode mein
-      toast.success("Todo Updated!");
     } else {
       // Create Mode
       formData.append('isCompleted', false);
       dispatch(createTodo(formData));
-      toast.success("Todo Created!");
     }
     
+    // Form clear karna
     setTitle('');
     setDescription('');
     setImage(null);

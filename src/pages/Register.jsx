@@ -37,11 +37,25 @@ const Register = () => {
     }));
   };
 
-  const onSubmit = (e) => {
+const onSubmit = (e) => {
     e.preventDefault();
+    
+    // 1. Check karein ki koi field khali toh nahi
     if (!name || !email || !password) {
       return toast.warning('Please fill all fields');
     }
+
+    // 2. Name Validation (Min 3 characters)
+    if (name.trim().length < 3) {
+      return toast.error('Name must be at least 3 characters long');
+    }
+
+    // 3. Password Validation (Min 6 characters)
+    if (password.length < 6) {
+      return toast.error('Password must be at least 6 characters');
+    }
+
+    // Agar sab sahi hai, tabhi backend ko request bhejein
     const userData = { name, email, password };
     dispatch(register(userData));
   };
