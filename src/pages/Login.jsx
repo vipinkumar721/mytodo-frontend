@@ -47,7 +47,7 @@ const onSubmit = (e) => {
     // 2. Email Lowercase Validation (NEW)
     // Yeh regex check karega ki email string mein koi capital letter (A-Z) toh nahi hai
     if (/[A-Z]/.test(email)) {
-      return toast.error("Please enter email in lowercase only!");
+      return toast.error("Email must be in lowercase only!");
     }
 
     // 3. Password length validation
