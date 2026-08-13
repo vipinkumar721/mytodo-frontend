@@ -18,16 +18,16 @@ const Login = () => {
     (state) => state.auth,
   );
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      toast.success("Login Successful!");
-      navigate("/"); // Login hone ke baad Home par bhejenge
-    }
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast.error(message);
+  //   }
+  //   if (isSuccess || user) {
+  //     toast.success("Login Successful!");
+  //     navigate("/"); // Login hone ke baad Home par bhejenge
+  //   }
+  //   dispatch(reset());
+  // }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -36,20 +36,28 @@ const Login = () => {
     }));
   };
 
-  const onSubmit = (e) => {
+const onSubmit = (e) => {
     e.preventDefault();
 
+    // 1. Basic empty field check
     if (!email || !password) {
       return toast.warning("Please fill all fields");
     }
 
+    // 2. Email Lowercase Validation (NEW)
+    // Yeh regex check karega ki email string mein koi capital letter (A-Z) toh nahi hai
+    if (/[A-Z]/.test(email)) {
+      return toast.error("Please enter email in lowercase only!");
+    }
+
+    // 3. Password length validation
     if (password.length < 6) {
       return toast.error("Password must be at least 6 characters");
     }
 
     const userData = { email, password };
 
-    // 👇 Yahan changes kiye gaye hain
+    // 👇 API Call dispatch
     dispatch(login(userData))
       .unwrap() // 👈 Ye Redux Toolkit ka function backend errors ko catch karta hai
       .then((response) => {

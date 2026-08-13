@@ -12,7 +12,7 @@ const Header = () => {
     dispatch(logout());
     dispatch(reset());
     toast.success('Logged out successfully');
-    navigate('/login');
+    // navigate('/login');
   };
 
   return (
