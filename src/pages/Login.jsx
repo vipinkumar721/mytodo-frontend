@@ -63,6 +63,7 @@ const onSubmit = (e) => {
       .then((response) => {
         // Agar login sahi ho gaya
         toast.success("Login Successful!");
+        navigate("/");
         // (Aap chaho toh yahan user ko Home page par navigate kar sakte ho)
       })
       .catch((error) => {
