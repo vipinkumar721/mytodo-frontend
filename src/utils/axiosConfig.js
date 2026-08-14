@@ -14,15 +14,20 @@ api.interceptors.response.use(
   (error) => {
     // Agar backend se error aayi hai
     if (error.response && error.response.status === 401) {
-      // 1. LocalStorage se user ka data hata do
-      localStorage.removeItem('user');
       
-      // 2. User ko wapas login page par bhej do
-      // Hum React Router ke bahar hain isliye window.location ka use kar rahe hain
-      window.location.href = '/login';
+      // 🔴 FIX YAHAN HAI: 
+      // Check karo ki error login request se toh nahi aayi hai.
+      // Agar request URL mein '/login' nahi hai, tabhi logout aur redirect karo.
+      if (error.config && !error.config.url.includes('/login')) {
+        // 1. LocalStorage se user ka data hata do
+        localStorage.removeItem('user');
+        
+        // 2. User ko wapas login page par bhej do
+        window.location.href = '/login';
+      }
     }
     
-    // Error ko aage pass kar do taaki aapke components usko catch kar sakein
+    // Error ko aage pass kar do taaki aapke components (jaise Login.jsx) usko catch kar sakein
     return Promise.reject(error);
   }
 );
