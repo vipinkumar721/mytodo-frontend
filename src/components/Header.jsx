@@ -29,32 +29,31 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+<header className="border-b border-[#8b8b8b] bg-white">
+  <div className="max-w-6xl mx-auto p-4 flex justify-between items-center">
+    
+    <h1 className="text-xl font-bold">
+      MyTodo
+    </h1>
+    
+    {/* Agar user hai (yani logged in hai) tabhi yeh section dikhayein */}
+    {user && (
+      <div className="flex items-center gap-4">
+        <span className="text-sm hidden sm:inline-block">
+          Welcome, <strong>{decodedName}</strong>
+        </span>
         
-        <h1 className="text-2xl font-extrabold text-emerald-900 tracking-tight">
-          MyTodo
-        </h1>
-        
-        {/* Agar user hai (yani logged in hai) tabhi yeh section dikhayein */}
-        {user && (
-          <div className="flex items-center gap-5 sm:gap-6">
-            <span className="text-sm font-medium text-gray-500 hidden sm:inline-block">
-              {/* 👈 NAYA: Ab 'user.name' ki jagah 'decodedName' use karein */}
-              Welcome, <span className="text-emerald-800 font-semibold">{decodedName}</span>
-            </span>
-            
-            <button
-              onClick={onLogout}
-              className="bg-white border border-gray-200 text-gray-700 hover:text-red-600 hover:border-red-200 hover:bg-red-50 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-100"
-            >
-              Logout
-            </button>
-          </div>
-        )}
-        
+        <button
+          onClick={onLogout}
+          className="px-4 py-1.5 text-sm font-semibold border border-[#2b2b2b] rounded-[4px] bg-white text-black hover:bg-black hover:text-white transition-colors focus:outline-none"
+        >
+          Logout
+        </button>
       </div>
-    </header>
+    )}
+    
+  </div>
+</header>
   );
 };
 
