@@ -60,67 +60,95 @@ const Home = () => {
   };
 
   return (
-<div className="min-h-screen bg-white pb-12">
+<div className="min-h-screen bg-emerald-50/40 pb-12 font-sans">
   <Header />
-  
-  <div className="max-w-7xl mx-auto p-4 sm:p-8">
+  <div className="max-w-6xl mx-auto p-4 sm:p-8">
     <TodoForm editTodo={editTodo} setEditTodo={setEditTodo} />
 
-    {/* Section Header */}
-    <div className="mb-4 mt-8 flex items-center justify-between border-b border-[#8b8b8b] pb-2">
-      <h2 className="text-xl font-bold">
+    <div className="mb-6 mt-2 flex items-center justify-between">
+      <h2 className="text-2xl font-extrabold text-emerald-900 tracking-tight">
         Your Tasks
       </h2>
       {todos.length > 0 && (
-        <span className="text-sm font-semibold">
-          {todos.filter((t) => t.isCompleted).length} / {todos.length} Completed
+        <span className="text-sm font-medium text-emerald-700 bg-emerald-100/80 px-3 py-1 rounded-full shadow-sm">
+          {todos.filter((t) => t.isCompleted).length} / {todos.length}{" "}
+          Completed
         </span>
       )}
     </div>
 
-    {/* Loading State */}
+    {/* FIX 3: Spinner tabhi dikhaye jab list khali ho (Initial Load) */}
     {isLoading && todos.length === 0 ? (
-      <div className="p-8 border border-[#8b8b8b] rounded-[8px] text-center font-bold">
-        Loading your tasks...
+      <div className="flex flex-col items-center justify-center py-16">
+        <div className="w-10 h-10 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
+        <p className="text-emerald-800 font-medium animate-pulse">
+          Loading your tasks...
+        </p>
       </div>
     ) : todos.length > 0 ? (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {todos.map((todo) => (
           <div
             key={todo._id}
-            className={`border border-[#8b8b8b] rounded-[8px] p-4 bg-white transition-colors ${
-              todo.isCompleted ? "bg-gray-100" : ""
+            className={`flex flex-col bg-white rounded-2xl p-5 shadow-sm border ${
+              todo.isCompleted
+                ? "border-emerald-200 bg-emerald-50/40"
+                : "border-gray-100"
             }`}
           >
             {/* Image Section */}
             {todo.image && (
-              <div className="mb-3 border border-[#2b2b2b] rounded-[4px]">
+              <div className="mb-4 relative rounded-xl overflow-hidden shadow-sm transition-opacity">
                 <img
                   src={todo.image}
                   alt={todo.title}
-                  className="w-full h-40 object-cover rounded-[4px]"
+                  className={`w-full h-44 object-cover transition-all duration-300 ${
+                    todo.isCompleted ? "grayscale opacity-60" : ""
+                  }`}
                 />
               </div>
             )}
 
             {/* Content Section */}
-            <div className="flex items-start gap-3 mb-2">
-              <input
-                type="checkbox"
-                checked={todo.isCompleted}
-                onChange={() => handleToggleCompleted(todo)}
-                className="mt-1 w-4 h-4 cursor-pointer accent-black"
-              />
-              <div>
+            <div className="flex items-start gap-3.5 mb-2 flex-grow">
+              <div className="relative flex items-center justify-center mt-1 shrink-0">
+                <input
+                  type="checkbox"
+                  checked={todo.isCompleted}
+                  onChange={() => handleToggleCompleted(todo)}
+                  className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-emerald-500 checked:border-emerald-500 cursor-pointer transition-all duration-200"
+                />
+                <svg
+                  className="absolute w-3.5 h-3.5 text-white pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+
+              <div className="flex-1">
                 <h3
-                  className={`text-lg font-bold ${
-                    todo.isCompleted ? "line-through text-gray-500" : "text-black"
+                  className={`text-lg font-bold leading-tight mb-1.5 transition-colors duration-200 ${
+                    todo.isCompleted
+                      ? "line-through text-gray-400"
+                      : "text-gray-900"
                   }`}
                 >
                   {todo.title}
                 </h3>
                 {todo.description && (
-                  <p className="text-sm text-gray-700 mt-1">
+                  <p
+                    className={`text-sm leading-relaxed ${
+                      todo.isCompleted ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
                     {todo.description}
                   </p>
                 )}
@@ -128,21 +156,43 @@ const Home = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-between items-center mt-4 pt-3 border-t border-[#8b8b8b] text-sm">
-              <div className="font-semibold text-[13px]">
-                {todo.isCompleted ? "Completed" : "In Progress"}
+            <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
+              <div className="flex items-center h-7">
+                {todo.isCompleted ? (
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-md">
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2.5"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    Completed
+                  </span>
+                ) : (
+                  <span className="flex items-center text-xs font-semibold text-gray-500 bg-gray-100/80 px-2.5 py-1 rounded-md">
+                    In Progress
+                  </span>
+                )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <button
+                  // Bonus Fix apply kiya gaya hai yaha
                   onClick={() => handleEditClick(todo)}
-                  className="cursor-pointer px-3 py-1 border border-[#2b2b2b] rounded-[4px] text-xs font-semibold hover:bg-black hover:text-white transition-colors focus:outline-none"
+                  className="text-sm font-medium text-gray-500 hover:text-emerald-600 transition-colors focus:outline-none"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(todo._id)}
-                  className="cursor-pointer px-3 py-1 border border-red-500 text-red-600 rounded-[4px] text-xs font-semibold hover:bg-red-500 hover:text-white transition-colors focus:outline-none"
+                  className="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors focus:outline-none"
                 >
                   Delete
                 </button>
@@ -152,10 +202,13 @@ const Home = () => {
         ))}
       </div>
     ) : (
-      <div className="text-center border border-[#8b8b8b] rounded-[8px] p-8 bg-white">
-        <h3 className="text-lg font-bold mb-2">No tasks yet</h3>
-        <p className="text-sm">
-          You're all caught up! Use the form above to create your first task.
+      <div className="text-center bg-white rounded-3xl p-12 shadow-sm border border-gray-100 mt-6 max-w-2xl mx-auto">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">
+          No tasks yet
+        </h3>
+        <p className="text-gray-500 max-w-sm mx-auto">
+          You're all caught up! Use the form above to create your first task
+          and stay organized.
         </p>
       </div>
     )}

@@ -68,78 +68,104 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center p-4">
-      <div className="w-full max-w-sm border border-[#8b8b8b] rounded-[8px] p-6 bg-white">
-        <h2 className="text-2xl text-center font-bold mb-2">Log In</h2>
-        <p className="text-sm text-center mb-6">
-          Enter your details to continue.
-        </p>
+   <div className="flex h-screen w-full items-center justify-center bg-emerald-50 px-4">
+  <div className="text-center w-full max-w-lg">
+    <h2 className="text-4xl font-extrabold text-emerald-900 mb-2">
+      Welcome back
+    </h2>
+    <p className="text-sm text-gray-600 mb-8">
+      Enter your details to continue
+    </p>
 
-        <form onSubmit={onSubmit} className="space-y-4">
-          {/* Email Field */}
-          <div>
-            <label className="block mb-1 text-sm font-semibold">Email</label>
+    <div className="w-full bg-white p-8 rounded-2xl shadow-xl shadow-gray-200 border border-gray-100">
+      <h3 className="text-2xl font-bold text-gray-900 text-center mb-1">
+        Log In
+      </h3>
+      <p className="text-sm text-gray-500 text-center mb-6">
+        Securely login to your account
+      </p>
+
+      <form onSubmit={onSubmit} className="space-y-5 text-left">
+        {/* Email Field */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 block mb-1.5 text-left">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            onKeyUp={handleKeyUp}
+            placeholder="Enter your email"
+            className="w-full p-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
+          />
+        </div>
+
+        {/* Password Field */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 block mb-1.5 text-left">
+            Password
+          </label>
+          <div className="relative">
             <input
-              type="email"
-              name="email"
-              value={email}
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={password}
               onChange={onChange}
               onKeyUp={handleKeyUp}
-              placeholder="Enter your email"
-              className="w-full p-2 border border-[#2b2b2b] rounded-[4px] focus:outline-none"
+              placeholder="Enter password"
+              className="w-full p-3 border border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 pr-10"
             />
-          </div>
-
-          {/* Password Field */}
-          <div>
-            <label className="block mb-1 text-sm font-semibold">Password</label>
-            <div className="flex border border-[#2b2b2b] rounded-[4px] focus:outline-none">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={password}
-                onChange={onChange}
-                onKeyUp={handleKeyUp}
-                placeholder="Enter password"
-                className="w-full p-2 outline-none"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="px-3  rounded-[4px] focus:outline-none text-sm"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-
-            {capsLockActive && (
-              <p className="text-[12px] text-red-500 font-bold mt-1">
-                Caps Lock is ON
-              </p>
-            )}
-          </div>
-
-          {/* Submit Button */}
-          <div className="pt-2">
             <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-black text-white p-2 font-semibold hover:bg-white hover:text-black disabled:bg-gray-400 border border-[#2b2b2b] rounded-[4px]"
-            >
-              {isLoading ? "Logging in..." : "Log In"}
-            </button>
+                  type="button"
+                  // Desktop Events
+                  onMouseDown={() => setShowPassword(true)}
+                  onMouseUp={() => setShowPassword(false)}
+                  onMouseLeave={() => setShowPassword(false)}
+                  // Mobile Touch Events
+                  onTouchStart={() => setShowPassword(true)}
+                  onTouchEnd={() => setShowPassword(false)}
+                  className="absolute right-3 top-3 text-sm text-gray-500 hover:text-emerald-600 focus:outline-none select-none transition-colors"
+                >
+                  Show
+                </button>
           </div>
-        </form>
 
-        {/* Footer Link */}
-        <div className="pt-4 text-sm text-center">
+          {capsLockActive && (
+            <p className="text-xs text-orange-500 font-bold mt-1.5">
+              ⚠️ Caps Lock is ON
+            </p>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <div className="pt-2">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-emerald-600 text-white p-3 rounded-xl font-semibold shadow-md hover:bg-emerald-700 active:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all duration-200 disabled:bg-emerald-300"
+          >
+            {isLoading ? "Logging in..." : "Log In"}
+          </button>
+        </div>
+      </form>
+
+      {/* Footer Link */}
+      <div className="mt-6 pt-5 text-center border-t border-gray-100">
+        <p className="text-sm text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="pl-1 text-blue-600">
+          <Link
+            to="/register"
+            className="font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
+          >
             Sign up
           </Link>
-        </div>
+        </p>
       </div>
     </div>
+  </div>
+</div>
   );
 };
 
