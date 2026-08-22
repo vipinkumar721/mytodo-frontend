@@ -23,7 +23,7 @@ export const getTodos = createAsyncThunk(
   },
 );
 
-// 2. Create Todo (FormData ke sath)
+// 2. Create Todo
 export const createTodo = createAsyncThunk(
   "todos/create",
   async (todoData, thunkAPI) => {
@@ -43,7 +43,7 @@ export const deleteTodo = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       await api.delete(`/todos/${id}`);
-      return id; // Delete hone ke baad hum sirf ID return kar rahe hain taaki usko list se hata sakein
+      return id; 
     } catch (error) {
       const message = error.response?.data?.message || error.message;
       return thunkAPI.rejectWithValue(message);
@@ -51,7 +51,7 @@ export const deleteTodo = createAsyncThunk(
   },
 );
 
-// 4. Update Todo (FormData ya JSON dono handle karega)
+// 4. Update Todo
 export const updateTodo = createAsyncThunk(
   "todos/update",
   async ({ id, todoData }, thunkAPI) => {
@@ -94,7 +94,7 @@ const todoSlice = createSlice({
       .addCase(createTodo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.todos.push(action.payload); // Naya todo direct list mein add kar diya
+        state.todos.push(action.payload);
       })
       .addCase(createTodo.rejected, (state, action) => {
         state.isLoading = false;
@@ -108,7 +108,7 @@ const todoSlice = createSlice({
       .addCase(deleteTodo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        // Jo ID delete hui hai, usko chhod kar baaki sab state mein rakh lo
+  
         state.todos = state.todos.filter((todo) => todo._id !== action.payload);
       })
       .addCase(deleteTodo.rejected, (state, action) => {
@@ -123,7 +123,7 @@ const todoSlice = createSlice({
       .addCase(updateTodo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        // Jo todo update hua hai, usko list mein dhundh kar replace kar do
+
         const index = state.todos.findIndex(
           (todo) => todo._id === action.payload._id,
         );

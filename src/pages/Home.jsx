@@ -17,14 +17,14 @@ const Home = () => {
     (state) => state.todo,
   );
 
-  // FIX 1: Error handling ke liye alag useEffect lagayein
+  // FIX 1: Error handling
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
   }, [isError, message]);
 
-  // FIX 2: Data fetch aur Auth check ke liye alag useEffect lagayein
+  // FIX 2: Data fetch aur Auth check 
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -53,7 +53,7 @@ const Home = () => {
     );
   };
   
-  // BONUS: Edit button par click karne par smoothly top par scroll hone ka function
+  
   const handleEditClick = (todo) => {
     setEditTodo(todo);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -77,7 +77,7 @@ const Home = () => {
       )}
     </div>
 
-    {/* FIX 3: Spinner tabhi dikhaye jab list khali ho (Initial Load) */}
+
     {isLoading && todos.length === 0 ? (
       <div className="flex flex-col items-center justify-center py-16">
         <div className="w-10 h-10 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin mb-4"></div>
@@ -184,7 +184,7 @@ const Home = () => {
 
               <div className="flex gap-4">
                 <button
-                  // Bonus Fix apply kiya gaya hai yaha
+                
                   onClick={() => handleEditClick(todo)}
                   className="text-sm font-medium text-gray-500 hover:text-emerald-600 transition-colors focus:outline-none"
                 >

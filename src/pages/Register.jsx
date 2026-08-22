@@ -23,27 +23,27 @@ const Register = () => {
     (state) => state.auth,
   );
 
-  // 1. Yeh wala useEffect bilkul SAME rahega (Draft save karne ke liye)
+  
   useEffect(() => {
     sessionStorage.setItem("draftName", name);
     sessionStorage.setItem("draftEmail", email);
   }, [name, email]);
 
-  // 2. 👇 SIRF IS WALE useEffect KO REPLACE KIYA GAYA HAI 👇
+  
   useEffect(() => {
-    // Agar koi error aati hai
+
     if (isError) {
       toast.error(message);
-      dispatch(reset()); // Error dikhane ke baad state reset kar do
+      dispatch(reset());
     }
 
-    // Agar registration successfully ho gaya hai (Yahan se 'user' hata diya hai)
+    // Registration successfully
     if (isSuccess) {
       toast.success("Registration Successful! Please login to continue.");
       sessionStorage.removeItem("draftName");
       sessionStorage.removeItem("draftEmail");
 
-      dispatch(reset()); // Redirect hone se pehle state reset karein taaki double popup na aaye
+      dispatch(reset()); 
       navigate("/login");
     }
   }, [isError, isSuccess, message, navigate, dispatch]);
@@ -57,7 +57,7 @@ const Register = () => {
       password,
     );
 
-  // Jab teeno chije sahi hongi tabhi isFormValid 'true' hoga
+    
   const isFormValid =
     name.trim().length >= 3 && isEmailValid && isPasswordValid;
 
@@ -73,10 +73,10 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // Agar form valid nahi hai toh submit hone hi nahi dega
+    
     if (!isFormValid) return;
 
-    // Alert confirmation show karega
+    // Alert confirmation show 
     const wantToRegister = window.confirm(
       `Are you sure you want to create an account with this email (${email})?`,
     );

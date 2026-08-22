@@ -8,7 +8,7 @@ const TodoForm = ({ editTodo, setEditTodo }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   
-  // 👈 NAYA STATE: Image preview dikhane ke liye
+  
   const [previewUrl, setPreviewUrl] = useState(null);
   
   const dispatch = useDispatch();
@@ -23,23 +23,23 @@ const TodoForm = ({ editTodo, setEditTodo }) => {
     }
   }, [editTodo]);
 
-  // 👈 NAYA EFFECT: Jab user nayi image select karega, toh usko preview URL mein convert karega
+  
   useEffect(() => {
     if (!image) {
       setPreviewUrl(null);
       return;
     }
-    // Image file ka temporary URL banata hai preview ke liye
+    
     const objectUrl = URL.createObjectURL(image);
     setPreviewUrl(objectUrl);
 
-    // Memory leak se bachne ke liye URL ko clear karna zaroori hai
+    
     return () => URL.revokeObjectURL(objectUrl);
   }, [image]);
 
   const handleRemoveImage = () => {
     setImage(null);
-    setPreviewUrl(null); // Preview bhi hata do
+    setPreviewUrl(null); 
     const fileInput = document.getElementById("imageInput");
     if (fileInput) {
       fileInput.value = "";
@@ -148,7 +148,7 @@ const TodoForm = ({ editTodo, setEditTodo }) => {
               <input
                 id="imageInput"
                 type="file"
-                // FEATURE 1: System dialog mein sirf yahi files dikhengi
+                // FEATURE 1: System dialog
                 accept=".jpg, .jpeg, .png, .webp" 
                 onChange={(e) => setImage(e.target.files[0])}
                 // FEATURE 2: Agar image already selected hai, toh input disable ho jayega

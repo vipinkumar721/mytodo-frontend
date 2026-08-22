@@ -19,7 +19,7 @@ const Login = () => {
 
   const { isLoading } = useSelector((state) => state.auth);
 
-  // 👈 Auto-lowercase hata diya gaya hai
+  
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({

@@ -11,7 +11,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         
-        {/* Home route ab PrivateRoute ke andar protected hai */}
+        {/* Home route PrivateRoute protected now */}
         <Route 
           path="/" 
           element={

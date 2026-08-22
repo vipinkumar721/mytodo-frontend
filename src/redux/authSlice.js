@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../utils/axiosConfig';
 
-// Page refresh hone par check karenge ki localStorage mein user details hain ya nahi
+// Page refresh check localStorage user details
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
@@ -55,7 +55,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // Component change hone par error/success reset karne ke liye
+
     reset: (state) => {
       state.isLoading = false;
       state.isError = false;
